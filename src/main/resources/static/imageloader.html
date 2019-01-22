@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Image Gallery</title>
+		<style>
+			#imageGallery {
+				max-width: 800px;
+				margin: auto;
+			}
+			.image {
+				width: 100px;
+				margin: 12px;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<div id="imageGallery"></div>
+
+		<script type="text/javascript">
+
+			var imagesURL = 'http://ec2-54-242-137-169.compute-1.amazonaws.com:8080/thumbnailsAsJson';
+			var imageGalleryElement = document.getElementById("imageGallery");
+			var imagesContainerElement = document.createElement("div");
+			imagesContainerElement.className = "imagesContainer";
+
+			var request = new XMLHttpRequest(); 
+			request.open("GET", imagesURL, true);
+			
+			request.onload = function() {
+				if(this.status === 200) {
+				console.log(this.responseText)
+					var images = JSON.parse(this.responseText);
+					console.log(this.responseText)
+					images.forEach(function(imageURL) {
+						var imageElement = document.createElement("IMG");
+						imageElement.src = imageURL;
+						imageElement.className = "image";
+						imagesContainerElement.appendChild(imageElement);
+					});
+					imageGalleryElement.appendChild(imagesContainerElement);
+				} else alert("API error!");
+			}
+
+			request.send();
+
+		</script>
+	
+	</body>
+
+</html>

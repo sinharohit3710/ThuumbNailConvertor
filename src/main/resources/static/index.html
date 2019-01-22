@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Image Uploader</title>
+	</head>
+	<body>
+		<form id="uploadForm">
+			<label>
+				Select images: <input type="file" name="image" accept="image/*" required multiple>
+			</label>	
+			<div>
+				<input type="submit" value="Upload" >
+			</div>
+		</form>
+		<a href="/imageloader.html">click here to see the thumbnails, it might take a minute to load newly generated thumbnails</a>
+		
+		<script type="text/javascript">
+			var uploadURL = 'http://ec2-54-242-137-169.compute-1.amazonaws.com:8080/uploadImage';
+			document.getElementById("uploadForm").addEventListener("submit", function(event) {
+				event.stopPropagation();
+				event.preventDefault();
+				var formElement = event.currentTarget;
+				var formData = new FormData(formElement);
+				var file = formData.getAll("image");
+				var isImage = true;
+				for(var i=0; i<file.length; i++){
+					if(file[i].type.indexOf("image") == -1){
+						isImage = false;
+						break;
+					}
+				}
+				if(isImage) {
+					var request = new XMLHttpRequest(); 
+					request.open("POST", uploadURL, true);
+					request.onload = function() {
+						if(this.status === 200) {
+						} else alert("API error!");
+					}
+					request.send(formData);
+				} else {
+					formElement.reset();
+					alert("Please input an image!");
+				}
+			});
+		</script>
+	</body>
+</html>
