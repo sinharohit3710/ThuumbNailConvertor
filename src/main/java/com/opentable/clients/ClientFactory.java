@@ -26,8 +26,8 @@ public class ClientFactory {
 	String secretKey;
 	
 	public ClientFactory() {
-		this.accessId = "AKIAIIDLILOGPXCDKALA";
-		this.secretKey = "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";
+		this.accessId = "AWS ACCESS ID";
+		this.secretKey = "AWS SECRET KEY";
 		this.credentials =  new BasicAWSCredentials(accessId, secretKey);
 	}
 	
